@@ -4,8 +4,7 @@ from geosupport import Geosupport, GeosupportError
 g = Geosupport()
 app = Flask(__name__)
 
-@app.route('/<function>/<house_number>/<street_name>/<borough>/<zipcode>', methods=['GET'])
-@app.route('/<function>/')
+@app.route('/<function>/', methods=['GET'])
 def geocode(function):
     house_number = request.args.get('house_number', '')
     street_name = request.args.get('street_name', '')
