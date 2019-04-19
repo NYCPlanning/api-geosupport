@@ -10,6 +10,9 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Avoid hosts unknown for github
+          command: ssh-keyscan zap-api.planninglabs.nyc >> ~/.ssh/known_hosts
       - deploy:
           name: Deployment
           command: |
