@@ -12,4 +12,11 @@ workflows:
   Welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - welcome/run
+      - deploy:
+          name: Deployment
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git remote add dokku dokku@zap-api.planninglabs.nyc:zap-api && git push dokku master
+            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              git remote add dokku dokku@zap-api.planninglabs.nyc:zap-api-staging && git push dokku develop:master
+            fi
