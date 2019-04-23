@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 from geosupport import Geosupport, GeosupportError
+import os 
 
 g = Geosupport()
 app = Flask(__name__)
