@@ -6,5 +6,5 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-# CMD ["python", "app.py"]
-CMD ["echo", "starting ..."]
+CMD ["python", "app.py"]
+# CMD ["echo", "starting ..."]
