@@ -6,7 +6,7 @@ flask api for geosupport python bindings
     ```
     docker run -itd\
         -p 5000:5000\
-        sptkl/docker-geosupport:19a python app.py
+        sptkl/docker-geosupport:19a-api python app.py
     ```
 2. Examples: 
     + using borough: 

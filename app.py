@@ -1,8 +1,12 @@
-from flask import Flask, jsonify, request 
+from flask import Flask, jsonify, request, render_template
 from geosupport import Geosupport, GeosupportError
+import os 
 
 g = Geosupport()
 app = Flask(__name__)
+@app.route('/')
+def welcome(): 
+    return render_template('index.html')
 
 @app.route('/<function>/', methods=['GET'])
 def geocode(function):
@@ -45,4 +49,4 @@ def geocode(function):
                         })
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)
