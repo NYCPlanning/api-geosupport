@@ -1,4 +1,4 @@
-FROM sptkl/docker-geosupport:19a-api
+FROM sptkl/docker-geosupport:19a-miniconda
 
 WORKDIR /usr/src/app
 
