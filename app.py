@@ -4,9 +4,6 @@ import os
 
 g = Geosupport()
 app = Flask(__name__)
-@app.route('/')
-def welcome(): 
-    return render_template('index.html')
 
 @app.route('/<function>/', methods=['GET'])
 def geocode(function):
@@ -35,18 +32,77 @@ def geocode(function):
         return jsonify({'status': 'failure',
                         'inputs': {
                             'function': function,
-                            'house_number': house_number, 
-                            'street_name': street_name, 
-                            'borough': borough, 
+                            'house_number': house_number,
+                            'street_name': street_name,
+                            'borough': borough,
                             'zipcode': zipcode
                         }, 
-                        'results': {
-                            'GRC': e.result['Geosupport Return Code (GRC)'], 
-                            'GRC2': e.result['Geosupport Return Code 2 (GRC 2)'],
-                            'message1': e.result['Message'],
-                            'message2': e.result['Message 2']
-                            }
+                        'results': e.result
                         })
+
+@app.route('/subset/<function>/', methods=['GET'])
+def geocode_subset(function):
+    house_number = request.args.get('house_number', '')
+    street_name = request.args.get('street_name', '')
+    borough = request.args.get('borough', '')
+    zipcode = request.args.get('zipcode', '')
+    try: 
+        geo = g[function](house_number=house_number, 
+                        street_name=street_name, 
+                        borough=borough,
+                        zip_code=zipcode)
+
+        return jsonify({'status':'success', 
+                        'inputs': {
+                            'function': function,
+                            'house_number': house_number, 
+                            'street_name': street_name, 
+                            'borough': borough,
+                            'zipcode': zipcode
+                        },
+                        'results': get_subset(geo)})
+
+    except GeosupportError as e: 
+
+        return jsonify({'status': 'failure',
+                        'inputs': {
+                            'function': function,
+                            'house_number': house_number,
+                            'street_name': street_name,
+                            'borough': borough,
+                            'zipcode': zipcode
+                        }, 
+                        'results': get_subset(e.result)
+                        })
+
+def get_subset(geo):
+    return {
+            'First Street Name Normalized' : geo.get('First Street Name Normalized', ''),
+            'House Number - Display Format' : geo.get('House Number - Display Format', ''),
+            'First Borough Name' : geo.get('First Borough Name', ''),
+            'Latitude' : geo.get('Latitude', ''),
+            'Longitude' : geo.get('Longitude', ''),
+
+            'Building Identification Number (BIN) of Input Address or NAP' : geo.get('Building Identification Number (BIN) of Input Address or NAP',''),
+            'BOROUGH BLOCK LOT (BBL)' : geo.get('BOROUGH BLOCK LOT (BBL)', {}).get('BOROUGH BLOCK LOT (BBL)', '',),
+            'Borough Code' : geo.get('BOROUGH BLOCK LOT (BBL)', {}).get('Borough Code', '',),
+
+            'Community School District' : geo.get('Community School District', ''),
+            'COMMUNITY DISTRICT' : geo.get('COMMUNITY DISTRICT', {}).get('COMMUNITY DISTRICT', ''),
+            '2010 Census Tract' : geo.get('2010 Census Tract', ''),
+            'City Council District' : geo.get('City Council District', ''),
+            'ZIP Code' : geo.get('ZIP Code', ''),
+            'USPS Preferred City Name' : geo.get('USPS Preferred City Name', ''), 
+            'Spatial X-Y Coordinates of Address' : geo.get('Spatial X-Y Coordinates of Address', ''), 
+            'Neighborhood Tabulation Area (NTA)' : geo.get('Neighborhood Tabulation Area (NTA)', ''), 
+            'City Council District' : geo.get('City Council District', ''), 
+            'Police Precinct' : geo.get('Police Precinct', ''), 
+
+            'Geosupport Return Code (GRC)' : geo.get('Geosupport Return Code (GRC)', ''),
+            'Geosupport Return Code 2 (GRC 2)' : geo.get('Geosupport Return Code 2 (GRC 2)', ''),
+            'Message' : geo.get('Message', 'msg err'),
+            'Message 2' : geo.get('Message 2', 'msg2 err'),
+    }
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
