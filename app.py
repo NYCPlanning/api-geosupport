@@ -57,7 +57,8 @@ def get_1A_1B_1E(function, house_number, street_name, borough, zip_code, mode, s
                                 'house_number': house_number, 
                                 'street_name': street_name, 
                                 'borough': borough,
-                                'zipcode': zip_code
+                                'zipcode': zip_code, 
+                                'mode': mode
                             },
                             'results': get_subset(geo) if subset else geo
                             })
@@ -70,7 +71,8 @@ def get_1A_1B_1E(function, house_number, street_name, borough, zip_code, mode, s
                                 'house_number': house_number,
                                 'street_name': street_name,
                                 'borough': borough,
-                                'zipcode': zip_code
+                                'zipcode': zip_code,
+                                'mode': mode
                             }, 
                             'results': get_subset(e.result) if subset else e.result
                             })
