@@ -1,4 +1,4 @@
-# api-geosupport
+# api-geosupport [![CircleCI](https://circleci.com/gh/NYCPlanning/api-geosupport.svg?style=svg)](https://circleci.com/gh/NYCPlanning/api-geosupport)
 flask api for geosupport python bindings
 
 ## Instructions
