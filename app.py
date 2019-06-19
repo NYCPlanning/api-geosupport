@@ -10,70 +10,72 @@ def geocode(function):
     house_number = request.args.get('house_number', '')
     street_name = request.args.get('street_name', '')
     borough = request.args.get('borough', '')
-    zipcode = request.args.get('zipcode', '')
-    try: 
-        geo = g[function](house_number=house_number, 
+    zip_code = request.args.get('zipcode', '')
+    mode = request.args.get('mode', 'regular')
+
+    return get_1A_1B_1E(function=function,
+                        house_number=house_number,
                         street_name=street_name, 
                         borough=borough,
-                        zip_code=zipcode)
-
-        return jsonify({'status':'success', 
-                        'inputs': {
-                            'function': function,
-                            'house_number': house_number, 
-                            'street_name': street_name, 
-                            'borough': borough,
-                            'zipcode': zipcode
-                        },
-                        'results': geo})
-
-    except GeosupportError as e: 
-
-        return jsonify({'status': 'failure',
-                        'inputs': {
-                            'function': function,
-                            'house_number': house_number,
-                            'street_name': street_name,
-                            'borough': borough,
-                            'zipcode': zipcode
-                        }, 
-                        'results': e.result
-                        })
+                        zip_code=zip_code, 
+                        mode=mode, 
+                        subset=False)
 
 @app.route('/subset/<function>/', methods=['GET'])
 def geocode_subset(function):
     house_number = request.args.get('house_number', '')
     street_name = request.args.get('street_name', '')
     borough = request.args.get('borough', '')
-    zipcode = request.args.get('zipcode', '')
-    try: 
-        geo = g[function](house_number=house_number, 
+    zip_code = request.args.get('zipcode', '')
+    mode = request.args.get('mode', 'regular')
+
+    return get_1A_1B_1E(function=function, 
+                        house_number=house_number, 
                         street_name=street_name, 
                         borough=borough,
-                        zip_code=zipcode)
+                        zip_code=zip_code, 
+                        mode=mode, 
+                        subset=True)
+            
+def get_1A_1B_1E(function, house_number, street_name, borough, zip_code, mode, subset):
+    if mode not in ['regular', 'extended', 'long', 'long+tpad', 'tpad']: 
+        return jsonify({
+            'status' : 'failure',
+            'reason' :  f'mode: {mode} is not recognized'
+        })
+    else: 
+        try: 
+            geo = g[function](house_number=house_number, 
+                            street_name=street_name, 
+                            borough=borough,
+                            zip_code=zip_code,
+                            mode=mode)
 
-        return jsonify({'status':'success', 
-                        'inputs': {
-                            'function': function,
-                            'house_number': house_number, 
-                            'street_name': street_name, 
-                            'borough': borough,
-                            'zipcode': zipcode
-                        },
-                        'results': get_subset(geo)})
+            return jsonify({'status':'success', 
+                            'inputs': {
+                                'function': function,
+                                'house_number': house_number, 
+                                'street_name': street_name, 
+                                'borough': borough,
+                                'zipcode': zip_code, 
+                                'mode': mode
+                            },
+                            'results': get_subset(geo) if subset else geo
+                            })
 
-    except GeosupportError as e: 
+        except GeosupportError as e: 
 
-        return jsonify({'status': 'failure',
-                        'inputs': {
-                            'function': function,
-                            'house_number': house_number,
-                            'street_name': street_name,
-                            'borough': borough,
-                            'zipcode': zipcode
-                        }, 
-                        'results': get_subset(e.result)
-                        })
+            return jsonify({'status': 'failure',
+                            'inputs': {
+                                'function': function,
+                                'house_number': house_number,
+                                'street_name': street_name,
+                                'borough': borough,
+                                'zipcode': zip_code,
+                                'mode': mode
+                            }, 
+                            'results': get_subset(e.result) if subset else e.result
+                            })
 
 def get_subset(geo):
     return {

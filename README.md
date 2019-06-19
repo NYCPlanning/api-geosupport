@@ -1,4 +1,4 @@
-# api-geosupport
+# api-geosupport [![CircleCI](https://circleci.com/gh/NYCPlanning/api-geosupport.svg?style=svg)](https://circleci.com/gh/NYCPlanning/api-geosupport)
 flask api for geosupport python bindings
 
 ## Instructions
@@ -22,5 +22,5 @@ flask api for geosupport python bindings
     + switch out `1b` for functions including `1`, `1a`, `1b` should all work
 
 4. Next Steps: 
-    + make this part of the docker-geosupport images for every release
-    + deploy on digital ocean
+    + write tests
+    + figure out a better way to structure code
