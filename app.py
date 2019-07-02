@@ -21,6 +21,54 @@ def geocode(function):
                         mode=mode, 
                         subset=False)
 
+@app.route('/BN/', methods=['GET'])
+def BN():
+    bin = request.args.get('bin')
+    mode = request.args.get('mode', 'regular')
+    try:
+        geo = g['BN'](bin=bin, mode=mode)
+        return jsonify({'status':'success', 
+                            'inputs': {
+                                'function': 'BN',
+                                'bin': bin,
+                                'mode': mode
+                            },
+                            'results': geo
+                            })
+    except GeosupportError as e:
+        return jsonify({'status':'failure', 
+                            'inputs': {
+                                'function': 'BN',
+                                'bin': bin,
+                                'mode': mode
+                            },
+                            'results': e.result
+                            })
+
+@app.route('/BL/', methods=['GET'])
+def BL():
+    bbl = request.args.get('bbl')
+    mode = request.args.get('mode', 'regular')
+    try:
+        geo = g['BL'](bbl=bbl, mode=mode)
+        return jsonify({'status':'success', 
+                            'inputs': {
+                                'function': 'BL',
+                                'bbl': bbl,
+                                'mode': mode
+                            },
+                            'results': geo
+                            })
+    except GeosupportError as e:
+        return jsonify({'status':'failure', 
+                            'inputs': {
+                                'function': 'BL',
+                                'bbl': bbl,
+                                'mode': mode
+                            },
+                            'results': e.result
+                            })
+
 @app.route('/subset/<function>/', methods=['GET'])
 def geocode_subset(function):
     house_number = request.args.get('house_number', '')
