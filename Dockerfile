@@ -1,4 +1,4 @@
-FROM sptkl/docker-geosupport:19b
+FROM sptkl/docker-geosupport:19b2
 
 WORKDIR /usr/src/app
 
