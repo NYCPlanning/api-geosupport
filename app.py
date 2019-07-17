@@ -146,7 +146,7 @@ def get_subset(geo):
 
             'Building Identification Number (BIN) of Input Address or NAP' : geo.get('Building Identification Number (BIN) of Input Address or NAP',''),
             'BOROUGH BLOCK LOT (BBL)' : geo.get('BOROUGH BLOCK LOT (BBL)', {}).get('BOROUGH BLOCK LOT (BBL)', ''),
-            'Borough Code' : borocode if borocode != '' else BOROUGHS.get(firstboro, ''),
+            'Borough Code' : borocode if borocode != '' else str(BOROUGHS.get(firstboro, '')),
 
             'Community School District' : geo.get('Community School District', ''),
             'COMMUNITY DISTRICT' : geo.get('COMMUNITY DISTRICT', {}).get('COMMUNITY DISTRICT', ''),
