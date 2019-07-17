@@ -5,6 +5,15 @@ import os
 g = Geosupport()
 app = Flask(__name__)
 
+BOROUGHS = {
+    'MANHATTAN': 1, 'MN': 1, 'NEW YORK': 1, 'NY': 1,
+    'BRONX': 2, 'THE BRONX': 2, 'BX': 2,
+    'BROOKLYN': 3, 'BK': 3, 'BKLYN': 3, 'KINGS': 3,
+    'QUEENS': 4, 'QN': 4, 'QU': 4,
+    'STATEN ISLAND': 5, 'SI': 5, 'STATEN IS': 5, 'RICHMOND': 5,
+    '': '',
+}
+
 @app.route('/<function>/', methods=['GET'])
 def geocode(function):
     house_number = request.args.get('house_number', '')
@@ -126,6 +135,8 @@ def get_1A_1B_1E(function, house_number, street_name, borough, zip_code, mode, s
                             })
 
 def get_subset(geo):
+    borocode = geo.get('BOROUGH BLOCK LOT (BBL)', {}).get('Borough Code', '')
+    firstboro = geo.get('First Borough Name', '')
     return {
             'First Street Name Normalized' : geo.get('First Street Name Normalized', ''),
             'House Number - Display Format' : geo.get('House Number - Display Format', ''),
@@ -134,8 +145,8 @@ def get_subset(geo):
             'Longitude' : geo.get('Longitude', ''),
 
             'Building Identification Number (BIN) of Input Address or NAP' : geo.get('Building Identification Number (BIN) of Input Address or NAP',''),
-            'BOROUGH BLOCK LOT (BBL)' : geo.get('BOROUGH BLOCK LOT (BBL)', {}).get('BOROUGH BLOCK LOT (BBL)', '',),
-            'Borough Code' : geo.get('BOROUGH BLOCK LOT (BBL)', {}).get('Borough Code', '',),
+            'BOROUGH BLOCK LOT (BBL)' : geo.get('BOROUGH BLOCK LOT (BBL)', {}).get('BOROUGH BLOCK LOT (BBL)', ''),
+            'Borough Code' : borocode if borocode != '' else str(BOROUGHS.get(firstboro, '')),
 
             'Community School District' : geo.get('Community School District', ''),
             'COMMUNITY DISTRICT' : geo.get('COMMUNITY DISTRICT', {}).get('COMMUNITY DISTRICT', ''),
