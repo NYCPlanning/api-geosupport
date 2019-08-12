@@ -14,22 +14,21 @@ class GeosupportApi(Resource):
     """
 
     def get(self, geofunction):
+
         params = reqparse.request.args
+
         try:
             result = g[geofunction](**params)
+            return {'error': False, 'result': result}
+
         except GeosupportError as ge:
-            return {
-                'error': True,
-                'result': ge.result
-            }
+            return {'error': True, 'result': ge.result}
 
-        return {
-            'error': False,
-            'result': result
-        }
+        except AttributeError:
+            return {'error': True, 'result': {"Message": "Unknown Geosupport function '{}'.".format(geofunction)}}
 
 
-api.add_resource(GeosupportApi, '/geosupport/<string:geofunction>')
+api.add_resource(GeosupportApi, '/<string:geofunction>')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
