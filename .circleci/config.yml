@@ -4,7 +4,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8.11.3-browsers
+      - image: sptkl/docker-geosupport:19b2
 
     working_directory: ~/repo
 
@@ -13,7 +13,6 @@ jobs:
       - run:
           name: run unittest
           command: |
-            pwd
             python -m unittest
       - run:
           name: Avoid hosts unknown for github
