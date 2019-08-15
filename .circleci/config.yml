@@ -3,6 +3,7 @@ version: 2
 # Run the welcome/run job in its own container
 jobs:
   build:
+    machine: true
     docker:
       - image: sptkl/docker-geosupport:19b2
 
@@ -18,6 +19,15 @@ jobs:
           name: run unittest
           command: |
             python -m unittest
+      - run: 
+          name: Build and publish docker image
+          command: |
+            TAG="${CIRCLE_SHA1}"
+            docker build -t sptkl/api-geosupport:$TAG .
+            docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+            docker push sptkl/api-geosupport:$TAG
+            docker tag sptkl/api-geosupport:$TAG sptkl/api-geosupport:latest
+            docker push sptkl/api-geosupport:latest
       - run:
           name: Avoid hosts unknown for github
           command: ssh-keyscan geosupport-api.planninglabs.nyc >> ~/.ssh/known_hosts
