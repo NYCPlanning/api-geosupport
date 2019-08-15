@@ -12,7 +12,9 @@ jobs:
       - checkout
       - run:
           name: run unittest
-          command: python -m unittest
+          command: |
+          pwd
+          python -m unittest
       - run:
           name: Avoid hosts unknown for github
           command: ssh-keyscan geosupport-api.planninglabs.nyc >> ~/.ssh/known_hosts
