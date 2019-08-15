@@ -10,7 +10,8 @@ jobs:
 
     steps:
       - checkout
-      - run tests:
+      - run:
+          name: run unittest
           command: python -m unittest
       - run:
           name: Avoid hosts unknown for github
