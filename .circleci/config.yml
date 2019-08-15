@@ -3,9 +3,9 @@ version: 2
 # Run the welcome/run job in its own container
 jobs:
   build:
-    machine: true
     docker:
       - image: sptkl/docker-geosupport:19b2
+      - image: docker:19.03.1
 
     working_directory: ~/repo
 
