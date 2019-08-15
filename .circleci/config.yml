@@ -13,7 +13,6 @@ jobs:
       - run:
           name: run unittest
           command: |
-          pwd
           python -m unittest
       - run:
           name: Avoid hosts unknown for github
