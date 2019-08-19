@@ -1,16 +1,9 @@
-import unittest
+from tests.testcase import TestCase
 
-from app import app
-app.testing = True
-
-
-class TestApi(unittest.TestCase):
-
-    def setUp(self):
-        self.app = app.test_client()
+class TestApi(TestCase):
 
     def test_func_name(self):
-        request = self.app.get('/address?house_number=100&street=Gold st&borough_code=1')
+        request = self.app.get('/geocode/address?house_number=100&street=Gold st&borough_code=1')
         response = request.json
         self.assertFalse(response['error'])
         self.assertIsNotNone(response['result']['First Borough Name'])
@@ -18,7 +11,7 @@ class TestApi(unittest.TestCase):
         self.assertIsNotNone(response['result']['First Street Name Normalized'])
 
     def test_func_code(self):
-        request = self.app.get('/1b?house_number=100&street=Gold st&borough_code=1')
+        request = self.app.get('/geocode/1b?house_number=100&street=Gold st&borough_code=1')
         response = request.json
         self.assertFalse(response['error'])
         self.assertIsNotNone(response['result']['First Borough Name'])
@@ -27,13 +20,13 @@ class TestApi(unittest.TestCase):
 
     def test_attr_error(self):
         fake_func = '0'
-        request = self.app.get('/{}'.format(fake_func))
+        request = self.app.get('/geocode/{}'.format(fake_func))
         response = request.json
         self.assertTrue(response['error'])
         self.assertEqual(response['result']["Message"],  "Unknown Geosupport function '{}'.".format(fake_func))
 
     def test_geo_error(self):
-        request = self.app.get('/address')
+        request = self.app.get('/geocode/address')
         response = request.json
         self.assertTrue(response['error'])
         self.assertEqual(response['result']["Message"],  "NO INPUT DATA RECEIVED")
