@@ -37,14 +37,14 @@ jobs:
             docker push sptkl/api-geosupport:$TAG
             docker tag sptkl/api-geosupport:$TAG sptkl/api-geosupport:latest
             docker push sptkl/api-geosupport:latest
-      - run:
-          name: Avoid hosts unknown for github
-          command: ssh-keyscan geosupport-api.planninglabs.nyc >> ~/.ssh/known_hosts
-      - deploy:
-          name: Deployment
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              git remote add dokku dokku@geosupport-api.planninglabs.nyc:geosupport-api && git push dokku master
-            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              git remote add dokku dokku@geosupport-api.planninglabs.nyc:geosupport-api-staging && git push dokku develop:master
-            fi
+      # - run:
+      #     name: Avoid hosts unknown for github
+      #     command: ssh-keyscan geosupport-api.planninglabs.nyc >> ~/.ssh/known_hosts
+      # - deploy:
+      #     name: Deployment
+      #     command: |
+      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
+      #         git remote add dokku dokku@geosupport-api.planninglabs.nyc:geosupport-api && git push dokku master
+      #       elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+      #         git remote add dokku dokku@geosupport-api.planninglabs.nyc:geosupport-api-staging && git push dokku develop:master
+      #       fi
