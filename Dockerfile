@@ -6,6 +6,6 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+EXPOSE ${PORT}
 
-CMD ["gunicorn", "app:app", "--workers=5", "--threads=3", "--bind=:5000"]
+CMD ["gunicorn", "app:app", "--workers=5", "--threads=3"]

@@ -2,11 +2,14 @@
 flask api for geosupport python bindings
 
 ## Instructions
-1. Using Docker: 
+1. Using Docker:
+    if you like to specify your own port:
     ```
-    docker run -itd\
-        -p 5000:5000\
-        sptkl/docker-geosupport:19a-api python app.py
+    docker run -d -e PORT={YOUR_PORT} -p {YOUR_PORT}:{YOUR_PORT} sptkl/api-geosupport:latest
+    ```
+    if no port specified, by default, the flask app will run on 5000:
+     ```
+    docker run -d -p 5000:5000 sptkl/api-geosupport:latest
     ```
 2. Examples: 
     + Geocode using borough: 
@@ -15,7 +18,7 @@ flask api for geosupport python bindings
         ```
     + Goecode using zipcode: 
         ```
-        http://0.0.0.0:5000/geocode/1b?house_number=120&street_name=broadway&zipcode=10271
+        http://0.0.0.0:5000/geocode/1b?house_number=120&street_name=broadway&zip_code=10271
         ```
     + Get address suggestions with minimal input: 
         ```
