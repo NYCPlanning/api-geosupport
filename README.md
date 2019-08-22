@@ -1,6 +1,12 @@
 # api-geosupport [![CircleCI](https://circleci.com/gh/NYCPlanning/api-geosupport.svg?style=svg)](https://circleci.com/gh/NYCPlanning/api-geosupport)
 flask api for geosupport python bindings
 
+## Try it now!
+
+Fire up an nginx proxy on [Heroku](https://www.heroku.com/) with a single click:
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Instructions
 1. Using Docker:
     if you like to specify your own port:
