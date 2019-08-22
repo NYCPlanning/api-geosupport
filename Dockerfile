@@ -6,6 +6,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-EXPOSE ${PORT}
-
 CMD ["gunicorn", "app:app", "--workers=5", "--threads=3"]
