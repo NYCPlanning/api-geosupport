@@ -3,8 +3,7 @@
     "name": "geosupport-api",
     "description": "A flask api using the sptkl/api-geosupport image",
     "repository": "https://github.com/NYCPlanning/api-geosupport.git",
-    "logo": "https://raw.githubusercontent.com/NYCPlanning/dcp-logo/master/dcp_logo.svg",
     "stack": "container",
-    "image": "sptkl/docker-geosupport:19b2",
+    "image": "sptkl/docker-geosupport:latest",
     "keywords": ["flask", "geosupport", "docker"]
   }
