@@ -3,7 +3,7 @@ flask api for geosupport python bindings
 
 ## Try it now!
 
-Fire up an nginx proxy on [Heroku](https://www.heroku.com/) with a single click:
+Fire up an geosupport api on [Heroku](https://www.heroku.com/) with a single click:
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
