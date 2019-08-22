@@ -44,7 +44,7 @@ jobs:
           name: Deployment
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              git remote add dokku dokku@geosupport-api.planninglabs.nyc:geosupport-api && git push dokku master
+              git remote add dokku dokku@geosupport-api.planninglabs.nyc:geosupport-api && git push dokku master && dokku proxy:ports-set geosupport-api http:80:5000
             elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
               git remote add dokku dokku@geosupport-api.planninglabs.nyc:geosupport-api-staging && git push dokku develop:master
             fi
