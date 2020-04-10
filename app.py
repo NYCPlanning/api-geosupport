@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Resource, Api, reqparse
 from geosupport import Geosupport, GeosupportError
 from suggest import GeosupportSuggest
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -9,6 +10,11 @@ api = Api(app)
 g = Geosupport()
 s = GeosupportSuggest(g)
 
+RELEASE=os.environ.get('RELEASE', '')
+MAJOR=os.environ.get('MAJOR', '')
+MINOR=os.environ.get('MINOR', '')
+PATCH=os.environ.get('PATCH', '')
+VERSION=f'{MAJOR}.{MINOR}.{PATCH}'
 
 class GeosupportApi(Resource):
     """
@@ -21,13 +27,22 @@ class GeosupportApi(Resource):
 
         try:
             result = g[geofunction](**params)
-            return {'error': False, 'result': result}
+            return {'error': False, 
+                    "version": VERSION, 
+                    "release": RELEASE, 
+                    'result': result}
 
         except GeosupportError as ge:
-            return {'error': True, 'result': ge.result}
+            return {'error': True, 
+                    "version": VERSION, 
+                    "release": RELEASE, 
+                    'result': ge.result}
 
         except AttributeError:
-            return {'error': True, 'result': {"Message": "Unknown Geosupport function '{}'.".format(geofunction)}}
+            return {'error': True, 
+                    "version": VERSION, 
+                    "release": RELEASE, 
+                    'result': {"Message": "Unknown Geosupport function '{}'.".format(geofunction)}}
 
 
 api.add_resource(GeosupportApi, '/geocode/<string:geofunction>', endpoint='geocode')
@@ -46,13 +61,33 @@ class SuggestApi(Resource):
             parser.add_argument('borough_code', type=int, trim=True, required=False)
             args = parser.parse_args()
             result = s.suggestions(args["address"], borough_code=args["borough_code"])
-            return {"error": False, "result": result}
+            return {"error": False, 
+                    "version": VERSION, 
+                    "release": RELEASE, 
+                    "result": result}
         except Exception as e:
-            return {"error": True, "result": str(e)}
+            return {"error": True, 
+                    "version": VERSION, 
+                    "release": RELEASE, 
+                    "result": str(e)}
 
 
 api.add_resource(SuggestApi, '/suggest', endpoint='suggest')
 
+# class HelpApi(Resource):
+#     """
+#     A geosupport function reference API
+#     """
+
+#     def get(self, geofunction):
+
+#         try:
+#             result = g[geofunction].help(return_as_string=True)
+#             return result.replace('\n', '<br>')
+#         except Exception as e:
+#             return str(e)
+
+# api.add_resource(HelpApi, '/help/<string:geofunction>', endpoint='help')
 
 if __name__ == '__main__':
     import os
