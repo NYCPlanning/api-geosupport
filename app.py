@@ -74,21 +74,6 @@ class SuggestApi(Resource):
 
 api.add_resource(SuggestApi, '/suggest', endpoint='suggest')
 
-# class HelpApi(Resource):
-#     """
-#     A geosupport function reference API
-#     """
-
-#     def get(self, geofunction):
-
-#         try:
-#             result = g[geofunction].help(return_as_string=True)
-#             return result.replace('\n', '<br>')
-#         except Exception as e:
-#             return str(e)
-
-# api.add_resource(HelpApi, '/help/<string:geofunction>', endpoint='help')
-
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))
