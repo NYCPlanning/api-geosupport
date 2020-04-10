@@ -1,4 +1,4 @@
-# api-geosupport [![CircleCI](https://circleci.com/gh/NYCPlanning/api-geosupport.svg?style=svg)](https://circleci.com/gh/NYCPlanning/api-geosupport)
+# api-geosupport ![Deploy to Dokku - production](https://github.com/NYCPlanning/api-geosupport/workflows/Deploy%20to%20Dokku%20-%20production/badge.svg?event=push)
 flask api for geosupport python bindings
 
 ## Try it now!
