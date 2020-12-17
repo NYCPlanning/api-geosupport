@@ -1,4 +1,4 @@
-FROM sptkl/docker-geosupport:latest
+FROM nycplanning/docker-geosupport:latest
 
 WORKDIR /usr/src/app
 
